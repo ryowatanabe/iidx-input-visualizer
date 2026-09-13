@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IIDX Input Visualizer</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div><p class="eyebrow">BEATMANIA IIDX / INPUT MONITOR</p><h1>Input Visualizer</h1></div>
+      <span class="badge" id="connection-status">接続待ち</span>
+    </header>
+
+    <section class="panel controls" aria-label="設定">
+      <label>表示モード<select id="mode"><option value="1p">1P</option><option value="2p">2P</option><option value="dp">DP</option></select></label>
+      <label>機種<select id="profile"></select></label>
+      <label>1P側のコントローラー<select id="device-1p"></select></label>
+      <label id="device-2p-wrap">2P側のコントローラー<select id="device-2p"></select></label>
+    </section>
+
+    <p class="notice" id="notice" role="status">コントローラーのボタンを押すかターンテーブルを回して、ブラウザに認識させてください。</p>
+
+    <section class="counters" aria-label="カウント">
+      <div class="counter panel"><span>鍵盤</span><strong id="key-total">0</strong><small>KEY PRESSES</small></div>
+      <div class="counter panel"><span>ターンテーブル</span><strong id="scratch-total">0</strong><small>SCRATCH ACTIONS</small></div>
+      <button id="reset" type="button">カウントをリセット</button>
+    </section>
+
+    <section id="decks" class="decks" aria-label="コントローラーの状態"></section>
+
+    <details class="panel diagnostics">
+      <summary>入力診断</summary>
+      <p>ブラウザ上のボタン番号は0始まりです。機種設定の「ボタン1～7」は、この画面では0～6に対応します。</p>
+      <div id="diagnostic-content">接続されたコントローラーはありません。</div>
+    </details>
+    <footer>カウントはこのブラウザに自動保存されます。計測中はこのタブを表示してください。</footer>
+  </main>
+</body>
+</html>
