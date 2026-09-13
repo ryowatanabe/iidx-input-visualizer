@@ -2,6 +2,8 @@
 
 Windows PCで接続したbeatmania IIDXコントローラーの入力をブラウザに表示し、鍵盤の押下とターンテーブルの操作を数えるプロトタイプです。
 
+公開版: [IIDX Input Visualizer](https://ryowatanabe.github.io/iidx-input-visualizer/)
+
 ## ローカルで試す
 
 `index.html` をChromeまたはEdgeで直接開きます。コントローラーのボタンを押してブラウザに認識させてください。入力診断を開くと、ブラウザが認識したボタンと軸の番号・値を確認できます。計測中はこのタブを表示したままにしてください。
@@ -23,4 +25,4 @@ Windows PCで接続したbeatmania IIDXコントローラーの入力をブラ�
 
 ## GitHub Pages
 
-リモートのPages設定で公開元を「GitHub Actions」にすると、`main` ブランチへのpushで `.github/workflows/pages.yml` が静的ファイルを公開します。現時点ではローカル確認を優先し、コミットとpushは行っていません。
+公開元は「GitHub Actions」です。変更が `main` ブランチにマージされると、`.github/workflows/pages.yml` が静的ファイルを公開します。
