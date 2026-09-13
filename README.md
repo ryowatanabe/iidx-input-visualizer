@@ -26,7 +26,3 @@ Windows PCで接続したbeatmania IIDXコントローラーの入力をブラ�
 ## GitHub Pages
 
 公開元は「GitHub Actions」です。変更が `main` ブランチにマージされると、`.github/workflows/pages.yml` が静的ファイルを公開します。
-
-## Issue・プルリクエスト
-
-Issueとプルリクエストのタイトル・本文・コメント・レビューは日本語で記述してください。コード、コマンド、ログなどは必要に応じて元の表記を使用できます。
