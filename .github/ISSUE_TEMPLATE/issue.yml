@@ -1,0 +1,23 @@
+name: Issue（日本語）
+description: 不具合、改善案、その他の課題を日本語で報告します。
+body:
+  - type: markdown
+    attributes:
+      value: |
+        タイトルと本文は日本語で記述してください。コードやログは元の表記のままで構いません。
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: 何が起きているか、または何を実現したいかを記述してください。
+      placeholder: 課題の概要を日本語で記述してください。
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: 詳細
+      description: 再現手順、期待する動作、背景などを記述してください。
+      placeholder: 判断に必要な情報を日本語で記述してください。
+    validations:
+      required: true
