@@ -1,3 +1,28 @@
+.counters {
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 22px;
+}
+
+.settings-area {
+  margin: 24px 0;
+}
+
+.settings-area .controls {
+  margin-top: 0;
+}
+
+.settings-footer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.settings-footer .notice {
+  margin: 0;
+}
+
 @media (min-width: 851px) and (max-width: 980px) {
   .decks {
     gap: 12px;
@@ -43,5 +68,15 @@
 
   .key.black.active {
     transform: translate(21px, 3px);
+  }
+}
+
+@media (max-width: 850px) {
+  .settings-footer {
+    grid-template-columns: auto 1fr;
+  }
+
+  .settings-footer button {
+    grid-column: 1 / -1;
   }
 }
