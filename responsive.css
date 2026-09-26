@@ -1,0 +1,47 @@
+@media (min-width: 851px) and (max-width: 980px) {
+  .decks {
+    gap: 12px;
+  }
+
+  .deck {
+    padding: 15px 10px 20px;
+  }
+
+  .deck-head {
+    margin-bottom: 16px;
+  }
+
+  .controller {
+    gap: 12px;
+    min-height: 180px;
+  }
+
+  .turntable {
+    width: 140px;
+    border-width: 8px;
+  }
+
+  .keys {
+    grid-template-columns: repeat(4, 38px);
+    grid-template-rows: repeat(2, 68px);
+    gap: 4px 5px;
+  }
+
+  .key {
+    height: 68px;
+  }
+
+  .key.black {
+    height: 54px;
+  }
+
+  .key[data-key="2"],
+  .key[data-key="4"],
+  .key[data-key="6"] {
+    transform: translateX(21px);
+  }
+
+  .key.black.active {
+    transform: translate(21px, 3px);
+  }
+}
