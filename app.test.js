@@ -20,9 +20,20 @@ function createHarness() {
     performance: { now: () => 0 }
   };
   vm.createContext(context);
-  vm.runInContext(`${source}\nglobalThis.harness = { state, profile: PROFILES.konami_iidx, axisDelta, processScratch, processPad };`, context);
-  return context.harness;
+  vm.runInContext(`${source}\nglobalThis.harness = { state, profile: PROFILES.konami_iidx, axisDelta, processScratch, processPad, updateTotals };`, context);
+  return { ...context.harness, element };
 }
+
+test("鍵盤とターンテーブルの内訳に加えて総合計を表示する", () => {
+  const h = createHarness();
+  h.state.counts["1p"].keys = [1000, 200, 30, 4, 0, 0, 0];
+  h.state.counts["1p"].scratch = 50;
+  h.state.counts["2p"].scratch = 16;
+  h.updateTotals();
+  assert.equal(h.element("key-total").textContent, "1,234");
+  assert.equal(h.element("scratch-total").textContent, "66");
+  assert.equal(h.element("grand-total").textContent, "1,300");
+});
 
 test("鍵盤は押下開始だけ数え、長押しと初回の押下状態は数えない", () => {
   const h = createHarness();

@@ -128,8 +128,11 @@ function renderDecks() {
   updateHighlights();
 }
 function updateTotals() {
-  $("key-total").textContent = sides.reduce((sum, side) => sum + state.counts[side].keys.reduce((a, b) => a + b, 0), 0).toLocaleString();
-  $("scratch-total").textContent = sides.reduce((sum, side) => sum + state.counts[side].scratch, 0).toLocaleString();
+  const keyTotal = sides.reduce((sum, side) => sum + state.counts[side].keys.reduce((a, b) => a + b, 0), 0);
+  const scratchTotal = sides.reduce((sum, side) => sum + state.counts[side].scratch, 0);
+  $("key-total").textContent = keyTotal.toLocaleString();
+  $("scratch-total").textContent = scratchTotal.toLocaleString();
+  $("grand-total").textContent = (keyTotal + scratchTotal).toLocaleString();
 }
 function updateHighlights() {
   for (const side of activeSides()) {
