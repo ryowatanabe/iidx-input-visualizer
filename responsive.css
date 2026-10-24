@@ -23,6 +23,11 @@
   margin-top: 0;
 }
 
+#swap-controllers {
+  grid-column: 1 / -1;
+  justify-self: end;
+}
+
 .settings-footer {
   display: grid;
   grid-template-columns: auto 1fr auto;

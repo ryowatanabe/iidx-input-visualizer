@@ -117,6 +117,12 @@ function setAssignment(side, value) {
   updateDeviceOptions();
   renderDecks();
 }
+function swapAssignments() {
+  [state.assigned["1p"], state.assigned["2p"]] = [state.assigned["2p"], state.assigned["1p"]];
+  state.runtime = { "1p": null, "2p": null };
+  updateDeviceOptions();
+  renderDecks();
+}
 function activeSides() { return state.mode === "dp" ? sides : [state.mode]; }
 function deckMarkup(side) {
   const sideName = side.toUpperCase();
@@ -278,6 +284,7 @@ $("profile").addEventListener("change", (event) => {
 });
 $("device-1p").addEventListener("change", (event) => setAssignment("1p", event.target.value));
 $("device-2p").addEventListener("change", (event) => setAssignment("2p", event.target.value));
+$("swap-controllers").addEventListener("click", swapAssignments);
 $("open-popup").addEventListener("click", () => openPopup());
 $("reset").addEventListener("click", () => {
   state.counts = { "1p": emptyCounts(), "2p": emptyCounts() };

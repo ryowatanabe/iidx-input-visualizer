@@ -8,19 +8,24 @@ const vm = require("node:vm");
 function createHarness() {
   const elements = new Map();
   const element = (id) => {
-    if (!elements.has(id)) elements.set(id, { textContent: "" });
+    if (!elements.has(id)) elements.set(id, {
+      textContent: "", parentElement: {}, classList: { toggle() {} },
+      replaceChildren() { this.options = []; },
+      add(option) { this.options.push(option); }
+    });
     return elements.get(id);
   };
   const source = fs.readFileSync("app.js", "utf8").split("\nrestore();")[0];
   const context = {
-    document: { getElementById: element },
+    document: { getElementById: element, querySelector: () => null },
+    Option: function (text, value) { this.text = text; this.value = value; },
     localStorage: { setItem() {} },
     setTimeout: () => 1,
     clearTimeout() {},
     performance: { now: () => 0 }
   };
   vm.createContext(context);
-  vm.runInContext(`${source}\nglobalThis.harness = { state, profile: PROFILES.konami_iidx, axisDelta, processScratch, processPad, updateTotals, openPopup };`, context);
+  vm.runInContext(`${source}\nglobalThis.harness = { state, profile: PROFILES.konami_iidx, axisDelta, processScratch, processPad, updateTotals, openPopup, swapAssignments };`, context);
   return { ...context.harness, element };
 }
 
@@ -43,6 +48,42 @@ test("別窓は固定名を再利用せず800x500で開く", () => {
   assert.equal(received[1], "_blank");
   assert.match(received[2], /(?:^|,)width=800(?:,|$)/);
   assert.match(received[2], /(?:^|,)height=500(?:,|$)/);
+});
+
+test("各表示モードで1P/2Pの割り当てと表示を交換し、カウントを保持する", () => {
+  for (const mode of ["1p", "2p", "dp"]) {
+    const h = createHarness();
+    h.state.mode = mode;
+    h.state.devices = [{ index: 2, id: "left" }, { index: 5, id: "right" }];
+    h.state.assigned = { "1p": 2, "2p": 5 };
+    h.state.runtime = { "1p": { active: true }, "2p": { active: true } };
+    h.state.counts["1p"].keys[0] = 12;
+    h.state.counts["2p"].scratch = 34;
+    h.swapAssignments();
+    assert.equal(h.state.assigned["1p"], 5);
+    assert.equal(h.state.assigned["2p"], 2);
+    assert.equal(h.element("device-1p").value, "5");
+    assert.equal(h.element("device-2p").value, "2");
+    assert.match(h.element("decks").innerHTML, mode === "2p" ? /#2 left/ : /#5 right/);
+    assert.equal(h.state.runtime["1p"], null);
+    assert.equal(h.state.runtime["2p"], null);
+    assert.equal(h.state.counts["1p"].keys[0], 12);
+    assert.equal(h.state.counts["2p"].scratch, 34);
+    h.swapAssignments();
+    assert.equal(h.state.assigned["1p"], 2);
+    assert.equal(h.state.assigned["2p"], 5);
+  }
+});
+
+test("未選択や同じコントローラーの割り当ても安全に交換する", () => {
+  for (const [first, second] of [[null, null], [2, null], [null, 2], [2, 2]]) {
+    const h = createHarness();
+    h.state.devices = [{ index: 2, id: "test" }];
+    h.state.assigned = { "1p": first, "2p": second };
+    h.swapAssignments();
+    assert.equal(h.state.assigned["1p"], second);
+    assert.equal(h.state.assigned["2p"], first);
+  }
 });
 
 test("鍵盤は押下開始だけ数え、長押しと初回の押下状態は数えない", () => {
