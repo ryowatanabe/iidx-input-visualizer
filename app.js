@@ -15,6 +15,8 @@ const PROFILES = {
   }
 };
 const STORAGE_KEY = "iidx-input-visualizer:v1";
+const POPUP_URL = "https://ryowatanabe.github.io/iidx-input-visualizer/";
+const POPUP_FEATURES = "popup=yes,width=800,height=500,location=no,toolbar=no,menubar=no,status=no,scrollbars=yes,resizable=yes";
 const sides = ["1p", "2p"];
 const $ = (id) => document.getElementById(id);
 const emptyCounts = () => ({ keys: Array(7).fill(0), scratch: 0 });
@@ -48,6 +50,9 @@ function save() {
 }
 function scheduleSave() {
   if (state.saveTimer === null) state.saveTimer = setTimeout(save, 200);
+}
+function openPopup(openWindow = window.open.bind(window)) {
+  return openWindow(POPUP_URL, "_blank", POPUP_FEATURES);
 }
 function freshRuntime(pad) {
   return {
@@ -273,13 +278,7 @@ $("profile").addEventListener("change", (event) => {
 });
 $("device-1p").addEventListener("change", (event) => setAssignment("1p", event.target.value));
 $("device-2p").addEventListener("change", (event) => setAssignment("2p", event.target.value));
-$("open-popup").addEventListener("click", () => {
-  window.open(
-    "https://ryowatanabe.github.io/iidx-input-visualizer/",
-    "iidx-input-visualizer",
-    "popup=yes,width=800,height=500,location=no,toolbar=no,menubar=no,status=no,scrollbars=yes,resizable=yes"
-  );
-});
+$("open-popup").addEventListener("click", () => openPopup());
 $("reset").addEventListener("click", () => {
   state.counts = { "1p": emptyCounts(), "2p": emptyCounts() };
   updateTotals(); save();

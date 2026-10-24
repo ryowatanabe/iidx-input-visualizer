@@ -20,7 +20,7 @@ function createHarness() {
     performance: { now: () => 0 }
   };
   vm.createContext(context);
-  vm.runInContext(`${source}\nglobalThis.harness = { state, profile: PROFILES.konami_iidx, axisDelta, processScratch, processPad, updateTotals };`, context);
+  vm.runInContext(`${source}\nglobalThis.harness = { state, profile: PROFILES.konami_iidx, axisDelta, processScratch, processPad, updateTotals, openPopup };`, context);
   return { ...context.harness, element };
 }
 
@@ -33,6 +33,16 @@ test("鍵盤とターンテーブルの内訳に加えて総合計を表示す�
   assert.equal(h.element("key-total").textContent, "1,234");
   assert.equal(h.element("scratch-total").textContent, "66");
   assert.equal(h.element("grand-total").textContent, "1,300");
+});
+
+test("別窓は固定名を再利用せず800x500で開く", () => {
+  const h = createHarness();
+  let received;
+  h.openPopup((...args) => { received = args; });
+  assert.equal(received[0], "https://ryowatanabe.github.io/iidx-input-visualizer/");
+  assert.equal(received[1], "_blank");
+  assert.match(received[2], /(?:^|,)width=800(?:,|$)/);
+  assert.match(received[2], /(?:^|,)height=500(?:,|$)/);
 });
 
 test("鍵盤は押下開始だけ数え、長押しと初回の押下状態は数えない", () => {
