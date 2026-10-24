@@ -273,6 +273,13 @@ $("profile").addEventListener("change", (event) => {
 });
 $("device-1p").addEventListener("change", (event) => setAssignment("1p", event.target.value));
 $("device-2p").addEventListener("change", (event) => setAssignment("2p", event.target.value));
+$("open-popup").addEventListener("click", () => {
+  window.open(
+    "https://ryowatanabe.github.io/iidx-input-visualizer/",
+    "iidx-input-visualizer",
+    "popup=yes,width=800,height=500,location=no,toolbar=no,menubar=no,status=no,scrollbars=yes,resizable=yes"
+  );
+});
 $("reset").addEventListener("click", () => {
   state.counts = { "1p": emptyCounts(), "2p": emptyCounts() };
   updateTotals(); save();

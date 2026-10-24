@@ -35,6 +35,15 @@
   margin: 0;
 }
 
+.settings-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.settings-actions button {
+  white-space: nowrap;
+}
+
 @media (min-width: 851px) and (max-width: 980px) {
   .decks {
     gap: 12px;
@@ -88,7 +97,11 @@
     grid-template-columns: auto 1fr;
   }
 
-  .settings-footer button {
+  .settings-actions {
     grid-column: 1 / -1;
+  }
+
+  .settings-actions button {
+    flex: 1;
   }
 }
